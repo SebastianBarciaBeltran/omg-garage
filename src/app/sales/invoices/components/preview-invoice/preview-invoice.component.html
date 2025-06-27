@@ -1,0 +1,113 @@
+<section class="flex flex-col gap-4 border p-3 h-full min-h-full w-full">
+  <section class="flex justify-between items-start gap-8">
+    <!-- Datos Company -->
+    <div class="flex flex-col w-1/2">
+      <div class="flex flex-col items-start mb-3 text-center">
+        <app-omd-logo width="200" height="81" />
+        <p class="mt-2 font-bold">{{ companyInfo.name }}</p>
+      </div>
+      <p><span class="font-semibold">CIF:</span> {{ companyInfo.cif }}</p>
+      <p><span class="font-semibold">Dirección:</span> {{ companyInfo.address }}</p>
+      <p><span class="font-semibold">Localidad:</span> {{ companyInfo.city }}</p>
+      <p><span class="font-semibold">CP:</span> {{ companyInfo.postalCode }}</p>
+      <p><span class="font-semibold">Telf:</span> {{ companyInfo.phone }}</p>
+      <p><span class="font-semibold">Email:</span> {{ companyInfo.email }}</p>
+    </div>
+
+    <section class="border w-1/2">
+      <h1 class="font-bold text-center border-b">DATOS CLIENTE</h1>
+      <div class="p-2">
+        <p><span class="font-semibold">Nombre:</span> {{ data.customer.name }}</p>
+        <p>
+          <span class="font-semibold">Dirección:</span>
+          {{
+            data.customer.address.nameOfTheRoad +
+              ', ' +
+              data.customer.address.province +
+              ' - ' +
+              data.customer.address.municipality +
+              ' ' +
+              data.customer.address.postalCode +
+              ' ' +
+              data.customer.address.locality
+          }}
+        </p>
+        <p><span class="font-semibold">Email:</span> {{ data.customer.email }}</p>
+        <p><span class="font-semibold">Vehículo:</span> {{ data.customer.vehicle }}</p>
+        <p><span class="font-semibold">Matrícula:</span> {{ data.customer.licensePlate }}</p>
+        <p><span class="font-semibold">KM:</span> {{ data.customer.mileage }} km</p>
+        <p><span class="font-semibold">NIF:</span> {{ data.customer.nifOrCif }}</p>
+        <p *ngIf="data.customer.claimNumber">
+          <span class="font-semibold">Siniestro:</span> {{ data.customer.claimNumber }}
+        </p>
+      </div>
+    </section>
+  </section>
+
+  <section class="w-full border overflow-hidden">
+    <table class="w-full table-fixed border-collapse text-sm">
+      <thead>
+        <tr>
+          <th class="border p-2 font-bold text-center">Fecha</th>
+          <th class="border p-2 font-bold text-center">Nº Factura</th>
+          <th class="border p-2 font-bold text-center">NIF/CIF</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="border p-2 text-center">{{ data.date | date: 'dd/MM/yyyy' }}</td>
+          <td class="border p-2 text-center">{{ data.invoiceNumber }}</td>
+          <td class="border p-2 text-center">{{ data.customer.nifOrCif }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <table class="w-full border border-collapse text-sm">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="border px-2 py-1">Ref.</th>
+        <th class="border px-2 py-1">Descripción</th>
+        <th class="border px-2 py-1 text-right">Cantidad</th>
+        <th class="border px-2 py-1 text-right">Precio</th>
+        <th class="border px-2 py-1 text-right">Importe</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of data.products">
+        <td class="border px-2 py-1">{{ p.code }}</td>
+        <td class="border px-2 py-1">{{ p.description }}</td>
+        <td class="border px-2 py-1 text-right">{{ p.quantity }} {{ p.unit }}.</td>
+        <td class="border px-2 py-1 text-right">{{ p.price }} €</td>
+        <td class="border px-2 py-1 text-right">
+          {{ _invoiceCalculationService.getLineTotal(p) | number: '1.2-2' }} €
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <section class="flex justify-between w-full px-4 py-2 mt-auto pt-4">
+    <div class="w-2/3 flex items-center justify-center">
+      <div class="text-center">
+        <p class="text-xs text-gray-600 leading-tight">Cuenta bancaria</p>
+        <p class="text-sm font-medium leading-tight">{{ companyInfo.bankAccount }}</p>
+      </div>
+    </div>
+
+    <div
+      class="w-1/4 border border-gray-300 rounded-md px-3 py-2 text-sm leading-snug bg-gray-50 shadow-sm flex flex-col justify-center"
+    >
+      <div class="flex justify-between">
+        <span class="text-gray-600">Base</span>
+        <span>{{ invoiceSummary.base }} €</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-gray-600">IVA 21%</span>
+        <span>{{ invoiceSummary.iva }} €</span>
+      </div>
+      <div class="flex justify-between border-t border-gray-300 mt-1 pt-1 font-semibold">
+        <span>Total</span>
+        <span>{{ invoiceSummary.total }} €</span>
+      </div>
+    </div>
+  </section>
+</section>

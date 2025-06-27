@@ -19,6 +19,12 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
+    "baseUrl": "src",
+    "paths": {
+      "@core/*": ["app/core/*"],
+      "@shared/*": ["app/shared/*"],
+      "@auth/*": ["app/auth/*"]
+    },
     "lib": [
       "ES2022",
       "dom"

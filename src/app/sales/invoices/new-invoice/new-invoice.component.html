@@ -1,0 +1,376 @@
+<header class="flex justify-between items-center">
+  <div class="flex items-center">
+    <p-button icon="pi pi-arrow-left" [rounded]="true" [text]="true" (onClick)="goBack()" />
+    <h1 class="text-2xl font-semibold">Nueva Factura</h1>
+  </div>
+
+  <div class="flex gap-2">
+    <p-button
+      label="Vista previa"
+      icon="pi pi-eye"
+      size="small"
+      variant="outlined"
+      (onClick)="openPreview()"
+    />
+    <p-splitButton label="Guardar" icon="pi pi-check" [model]="splitButtonItems" size="small" />
+  </div>
+</header>
+
+<section class="flex flex-col gap-y-2">
+  <form [formGroup]="form" class="flex flex-col gap-y-1">
+    <section>
+      <h2 class="text-lg font-semibold">* Fecha</h2>
+      <div class="flex flex-col">
+        <p-calendar
+          formControlName="date"
+          class="mt-4"
+          [iconDisplay]="'input'"
+          [showIcon]="true"
+          inputId="icondisplay"
+          [ngClass]="{
+            'ng-invalid ng-dirty': isFieldInvalid('date'),
+          }"
+        />
+        <small class="text-red-500 text-sm" *ngIf="isFieldInvalid('date')">{{
+          getErrorMessage('date')
+        }}</small>
+      </div>
+    </section>
+    <p-divider />
+
+    <section>
+      <h2 class="text-lg font-semibold">Datos del cliente</h2>
+      <div class="flex flex-wrap gap-4" formGroupName="customer">
+        <div class="flex flex-col basis-[48%]">
+          <input
+            pInputText
+            formControlName="name"
+            placeholder="* Nombre"
+            [ngClass]="{
+              'ng-invalid ng-dirty': isFieldInvalid('customer.name'),
+            }"
+          />
+          <small class="text-red-500 text-sm" *ngIf="isFieldInvalid('customer.name')">
+            {{ getErrorMessage('customer.name') }}
+          </small>
+        </div>
+
+        <div class="flex flex-wrap gap-4 basis-full" formGroupName="address">
+          <div class="flex flex-col basis-full">
+            <input
+              pInputText
+              formControlName="nameOfTheRoad"
+              placeholder="* Nombre de la vía"
+              [ngClass]="{
+                'ng-invalid ng-dirty': isFieldInvalid('customer.address.nameOfTheRoad'),
+              }"
+            />
+            <small
+              class="text-red-500 text-sm"
+              *ngIf="isFieldInvalid('customer.address.nameOfTheRoad')"
+            >
+              {{ getErrorMessage('customer.address.nameOfTheRoad') }}
+            </small>
+          </div>
+
+          <div class="flex flex-col basis-[48%]">
+            <input
+              pInputText
+              formControlName="province"
+              placeholder="* Provincia"
+              [ngClass]="{
+                'ng-invalid ng-dirty': isFieldInvalid('customer.address.province'),
+              }"
+            />
+            <small class="text-red-500 text-sm" *ngIf="isFieldInvalid('customer.address.province')">
+              {{ getErrorMessage('customer.address.province') }}
+            </small>
+          </div>
+
+          <div class="flex flex-col basis-[48%]">
+            <input
+              pInputText
+              formControlName="municipality"
+              placeholder="* Municipio"
+              [ngClass]="{
+                'ng-invalid ng-dirty': isFieldInvalid('customer.address.municipality'),
+              }"
+            />
+            <small
+              class="text-red-500 text-sm"
+              *ngIf="isFieldInvalid('customer.address.municipality')"
+            >
+              {{ getErrorMessage('customer.address.municipality') }}
+            </small>
+          </div>
+
+          <div class="flex flex-col basis-[48%]">
+            <input
+              pInputText
+              formControlName="locality"
+              placeholder="* Localidad"
+              [ngClass]="{
+                'ng-invalid ng-dirty': isFieldInvalid('customer.address.locality'),
+              }"
+            />
+            <small class="text-red-500 text-sm" *ngIf="isFieldInvalid('customer.address.locality')">
+              {{ getErrorMessage('customer.address.locality') }}
+            </small>
+          </div>
+
+          <div class="flex flex-col basis-[48%]">
+            <input
+              pInputText
+              formControlName="postalCode"
+              placeholder="* CP"
+              [ngClass]="{
+                'ng-invalid ng-dirty': isFieldInvalid('customer.address.postalCode'),
+              }"
+            />
+            <small
+              class="text-red-500 text-sm"
+              *ngIf="isFieldInvalid('customer.address.postalCode')"
+            >
+              {{ getErrorMessage('customer.address.postalCode') }}
+            </small>
+          </div>
+        </div>
+
+        <div class="flex flex-col basis-[48%]">
+          <input
+            type="text"
+            pInputText
+            formControlName="email"
+            placeholder="* Email"
+            [ngClass]="{
+              'ng-invalid ng-dirty': isFieldInvalid('customer.email'),
+            }"
+          />
+          <small class="text-red-500 text-sm" *ngIf="isFieldInvalid('customer.email')">
+            {{ getErrorMessage('customer.email') }}
+          </small>
+        </div>
+
+        <div class="flex flex-col basis-[48%]">
+          <input
+            pInputText
+            formControlName="vehicle"
+            placeholder="* Vehículo"
+            [ngClass]="{
+              'ng-invalid ng-dirty': isFieldInvalid('customer.vehicle'),
+            }"
+          />
+          <small class="text-red-500 text-sm" *ngIf="isFieldInvalid('customer.vehicle')">
+            {{ getErrorMessage('customer.vehicle') }}
+          </small>
+        </div>
+
+        <div class="flex flex-col basis-[48%]">
+          <input
+            pInputText
+            formControlName="licensePlate"
+            placeholder="* Matrícula"
+            [ngClass]="{
+              'ng-invalid ng-dirty': isFieldInvalid('customer.licensePlate'),
+            }"
+          />
+          <small class="text-red-500 text-sm" *ngIf="isFieldInvalid('customer.licensePlate')">
+            {{ getErrorMessage('customer.licensePlate') }}
+          </small>
+        </div>
+
+        <div class="flex flex-col basis-[48%]">
+          <input
+            pInputText
+            formControlName="mileage"
+            placeholder="* KM"
+            [ngClass]="{
+              'ng-invalid ng-dirty': isFieldInvalid('customer.mileage'),
+            }"
+          />
+          <small class="text-red-500 text-sm" *ngIf="isFieldInvalid('customer.mileage')">
+            {{ getErrorMessage('customer.mileage') }}
+          </small>
+        </div>
+
+        <div class="flex flex-col basis-[48%]">
+          <input
+            pInputText
+            formControlName="nifOrCif"
+            placeholder="* NIF/CIF"
+            [ngClass]="{
+              'ng-invalid ng-dirty': isFieldInvalid('customer.nifOrCif'),
+            }"
+          />
+          <small class="text-red-500 text-sm" *ngIf="isFieldInvalid('customer.nifOrCif')">
+            {{ getErrorMessage('customer.nifOrCif') }}
+          </small>
+        </div>
+
+        <div class="flex flex-col basis-[48%]">
+          <input pInputText formControlName="claimNumber" placeholder="Siniestro" />
+        </div>
+      </div>
+    </section>
+    <p-divider />
+
+    <section class="flex flex-col gap-y-3">
+      <div class="flex justify-between items-center">
+        <h2 class="text-lg font-semibold">Productos</h2>
+        <p-button
+          label="Añadir producto"
+          icon="pi pi-plus"
+          class="mt-4"
+          size="small"
+          (onClick)="addProduct()"
+        />
+      </div>
+
+      <p-table
+        [value]="formGroups"
+        [reorderableColumns]="true"
+        dataKey="code"
+        [tableStyle]="{ 'min-width': '60rem' }"
+        (onRowReorder)="onRowReorder($event)"
+        s
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 2%"></th>
+            <th style="width: 10%">Referencia</th>
+            <th style="width: 63%">* Descripción</th>
+            <th style="width: 5%">* Cantidad</th>
+            <th style="width: 5%">* Unidad</th>
+            <th style="width: 10%">* Precio</th>
+            <th style="width: 10%">Importe</th>
+            <th style="width: 2%"></th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-row let-i="rowIndex">
+          <tr [formGroup]="row" [pReorderableRow]="i">
+            <td>
+              <div class="flex flex-col">
+                <span class="pi pi-bars" pReorderableRowHandle></span>
+              </div>
+            </td>
+            <td>
+              <div class="flex flex-col">
+                <input pInputText formControlName="code" class="w-full" />
+              </div>
+            </td>
+            <td>
+              <div class="flex flex-col">
+                <input
+                  pInputText
+                  formControlName="description"
+                  class="w-full"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty': isProductFieldInvalid(row, 'description'),
+                  }"
+                />
+                <small
+                  class="text-red-500 text-sm"
+                  *ngIf="isProductFieldInvalid(row, 'description')"
+                  >{{ getProductErrorMessage(row, 'description') }}</small
+                >
+              </div>
+            </td>
+            <td>
+              <div class="flex flex-col">
+                <p-inputNumber
+                  inputId="integeronly"
+                  formControlName="quantity"
+                  [min]="0"
+                  [step]="0.25"
+                  [minFractionDigits]="0"
+                  [maxFractionDigits]="2"
+                  [showButtons]="true"
+                  locale="en-US"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty': isProductFieldInvalid(row, 'quantity'),
+                  }"
+                />
+                <small
+                  class="text-red-500 text-sm"
+                  *ngIf="isProductFieldInvalid(row, 'quantity')"
+                  >{{ getProductErrorMessage(row, 'quantity') }}</small
+                >
+              </div>
+            </td>
+            <td>
+              <div class="flex flex-col">
+                <p-dropdown
+                  formControlName="unit"
+                  [options]="unitOptions"
+                  optionLabel="name"
+                  optionValue="code"
+                  placeholder="Unidad"
+                  appendTo="body"
+                />
+                <small class="text-red-500 text-sm" *ngIf="isProductFieldInvalid(row, 'unit')">{{
+                  getProductErrorMessage(row, 'unit')
+                }}</small>
+              </div>
+            </td>
+            <td>
+              <div class="flex flex-col">
+                <input
+                  type="number"
+                  pInputText
+                  formControlName="price"
+                  class="w-full"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty': isProductFieldInvalid(row, 'price'),
+                  }"
+                />
+                <small class="text-red-500 text-sm" *ngIf="isProductFieldInvalid(row, 'price')">{{
+                  getProductErrorMessage(row, 'price')
+                }}</small>
+              </div>
+            </td>
+            <td style="text-align: end">
+              {{ _invoiceCalculationService.getLineTotal(row.value) }}€
+            </td>
+
+            <td>
+              <p-button
+                icon="pi pi-trash"
+                [rounded]="true"
+                [text]="true"
+                severity="danger"
+                (click)="removeProduct(i)"
+              />
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </section>
+  </form>
+
+  <section class="flex justify-between w-full px-4 py-2 mt-auto pt-4">
+    <div class="w-2/3 flex items-center justify-center">
+      <div class="text-center">
+        <p class="text-xs text-gray-600 leading-tight">Cuenta bancaria</p>
+        <p class="text-sm font-medium leading-tight">{{ companyInfo.bankAccount }}</p>
+      </div>
+    </div>
+
+    <div
+      class="w-1/4 border border-gray-300 rounded-md px-3 py-2 text-sm leading-snug bg-gray-50 shadow-sm flex flex-col justify-center"
+    >
+      <div class="flex justify-between">
+        <span class="text-gray-600">Base</span>
+        <span>{{ invoiceSummary.base }} €</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-gray-600">IVA 21%</span>
+        <span>{{ invoiceSummary.iva }} €</span>
+      </div>
+      <div class="flex justify-between border-t border-gray-300 mt-1 pt-1 font-semibold">
+        <span>Total</span>
+        <span>{{ invoiceSummary.total }} €</span>
+      </div>
+    </div>
+  </section>
+</section>

@@ -1,0 +1,64 @@
+<div class="flex justify-center items-center h-screen w-full">
+
+  <div class="bg-surface-50 dark:bg-surface-950 px-6 md:px-12 lg:px-20 w-full lg:w-3/4">
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="login()"
+      class="bg-surface-0 dark:bg-surface-900 p-6 shadow rounded-border w-full lg:w-6/12 mx-auto"
+    >
+      <div class="flex flex-col items-center gap-y-2 mb-8">
+        <app-omd-logo width="200" height="81"/>
+        <p>Ocio, motor y diversión SL </p>
+        <!-- <div class="flex">
+          <span
+            class="text-surface-600 dark:text-surface-200 font-medium leading-normal"
+            >Aún no tienes una cuenta?</span
+          >
+          <a
+            class="font-medium no-underline ml-2 text-primary cursor-pointer"
+            routerLink="/registro"
+            >Registrarse</a
+          >
+        </div> -->
+      </div>
+
+      <div>
+        <label
+          for="username"
+          class="text-surface-900 dark:text-surface-0 font-medium mb-2 block"
+          >Usuario</label
+        >
+        <input
+          pInputText
+          type="text"
+          formControlName="username"
+          id="username"
+          class="w-full mb-4"
+          placeholder="Usuario"
+        />
+
+        <label
+          for="pass"
+          class="text-surface-900 dark:text-surface-0 font-medium mb-2 block"
+          >Password</label
+        >
+        <input
+          pInputText
+          type="password"
+          formControlName="password"
+          placeholder="Contraseña"
+          id="pass"
+          class="w-full mb-4"
+        />
+
+        <p-button
+          label="Iniciar Sesión"
+          type="submit"
+          styleClass="w-full"
+          [disabled]="loginForm.invalid"
+        />
+      </div>
+    </form>
+  </div>
+
+</div>

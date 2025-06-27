@@ -1,0 +1,18 @@
+import { Component } from '@angular/core';
+import { AuthService } from '@auth/auth.service';
+import { User } from '@core/models';
+
+@Component({
+  selector: 'app-home',
+  standalone: true,
+  imports: [],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.css',
+})
+export class HomeComponent {
+  user!: User | null;
+
+  constructor(private _authService: AuthService) {
+    this.user = this._authService.getCurrentUser();
+  }
+}

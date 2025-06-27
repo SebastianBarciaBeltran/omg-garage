@@ -1,0 +1,20 @@
+/* drawer */
+::ng-deep .p-drawer-header {
+  padding: 4px 16px !important;
+}
+::ng-deep .p-drawer-content {
+  padding: 0px !important;
+}
+::ng-deep .p-drawer-footer {
+  padding: 8px 16px !important;
+}
+
+/* divider */
+::ng-deep .p-divider-horizontal {
+  margin: 0.5rem 0 !important;
+}
+
+/* panelmenu */
+::ng-deep .p-panelmenu-panel {
+  border: none !important;
+}
