@@ -675,7 +675,7 @@ export const appConfig: ApplicationConfig = {
                      options: {
                      darkModeSelector: false
                     }
-                },
+                }
             })
   ]
 };

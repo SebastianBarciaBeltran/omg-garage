@@ -22,7 +22,7 @@ export class SidebarComponent {
         this.drawerRef.close(e);
     }
 
-    visible: boolean = true;
+  visible: boolean = false;
 
   items: MenuItem[] = [];
 

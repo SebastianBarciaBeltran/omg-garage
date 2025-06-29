@@ -19,6 +19,7 @@ import { InvoiceForm } from '@core/models/invoice-form.interfaces';
 import { primeNGModules } from '@shared/primeng/primeng';
 import { PreviewInvoiceComponent } from '../components/preview-invoice/preview-invoice.component';
 import { InvoiceCalculationService } from '../services/invoice-calculation.service';
+import { PrintService } from '@core/services/print.service';
 
 @Component({
   selector: 'app-new-invoice',
@@ -29,21 +30,24 @@ import { InvoiceCalculationService } from '../services/invoice-calculation.servi
 })
 export class NewInvoiceComponent implements OnInit {
   form!: FormGroup;
+
   formGroups: FormGroup[] = [];
-  splitButtonItems: MenuItem[] = [
+
+  splitButtonItems: MenuItem[]  =
+  [
     {
-      label: 'Imprimir',
-      icon: 'pi pi-print',
-      // command: () => {
-      //   this.print();
-      // },
+      label: 'Descargar pdf',
+      icon: 'pi pi-file-pdf',
+      command: () => this.downloadPdf(),
     },
   ];
+
   unitOptions: { name: string; code: Unit }[] = [
     { name: 'Unidades', code: 'ud' },
     { name: 'Horas', code: 'h' },
     { name: 'Litros', code: 'l' },
   ];
+
   companyInfo: Company = DEFAULT_COMPANY_INFO;
 
   constructor(
@@ -52,29 +56,30 @@ export class NewInvoiceComponent implements OnInit {
     private dialogService: DialogCustomService,
     private readonly _formValidationService: FormValidationService,
     readonly _invoiceCalculationService: InvoiceCalculationService,
+    private printService: PrintService
   ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
       customer: this.fb.group({
-        name: ['Sebastián', [Validators.required]],
+        name: ['', [Validators.required]],
         address: this.fb.group({
-          nameOfTheRoad: ['C/ Cartagena 14', [Validators.required]],
-          province: ['Madrid', [Validators.required]],
-          municipality: ['Madrid', [Validators.required]],
-          postalCode: ['28028', [Validators.required]],
-          locality: ['Madrid', [Validators.required]],
+          nameOfTheRoad: ['', [Validators.required]],
+          province: ['', [Validators.required]],
+          municipality: ['', [Validators.required]],
+          postalCode: ['', [Validators.required]],
+          locality: ['', [Validators.required]],
         }),
-        email: ['sebas@gmail.com', [Validators.required, Validators.email]],
-        vehicle: ['Honda CBR 600RR', [Validators.required]],
-        licensePlate: ['6072GXR', [Validators.required]],
-        mileage: ['27000', [Validators.required]],
-        nifOrCif: ['53374412Z', [Validators.required]],
+        email: ['', [Validators.required, Validators.email]],
+        vehicle: ['', [Validators.required]],
+        licensePlate: ['', [Validators.required]],
+        mileage: ['', [Validators.required]],
+        nifOrCif: ['', [Validators.required]],
         claimNumber: [''],
       }),
       products: this.fb.array([]),
       date: [new Date(), [Validators.required]],
-      invoiceNumber: ['12ew23asd'],
+      invoiceNumber: [this.generateInvoiceNumber()],
     });
 
     this.addProduct();
@@ -88,13 +93,18 @@ export class NewInvoiceComponent implements OnInit {
     return this._invoiceCalculationService.getSummary(this.products.value);
   }
 
+  get isFormValid(): boolean {
+    return this.form?.valid ?? false;
+  }
+
+
   addProduct(): void {
     const productGroup = this.fb.group({
       code: [''],
-      description: ['prueba', [Validators.required]],
+      description: ['', [Validators.required]],
       quantity: ['', [Validators.required, Validators.min(0.25)]],
-      price: ['5', [Validators.required, Validators.min(0)]],
-      unit: ['ud', [Validators.required]],
+      price: ['', [Validators.required, Validators.min(0)]],
+      unit: ['', [Validators.required]],
     });
     this.products.push(productGroup);
     this.syncFormGroups();
@@ -123,7 +133,7 @@ export class NewInvoiceComponent implements OnInit {
   }
 
   openPreview(): void {
-    if (this.form.invalid) {
+    if (!this.isFormValid) {
       this.markFormGroupTouched(this.form);
       return;
     }
@@ -134,6 +144,7 @@ export class NewInvoiceComponent implements OnInit {
       maximizable: true,
     });
   }
+
 
   private markFormGroupTouched(group: FormGroup | FormArray): void {
     Object.values(group.controls).forEach(control => {
@@ -169,9 +180,21 @@ export class NewInvoiceComponent implements OnInit {
     return control ? this._formValidationService.isFieldInvalid(control) : false;
   }
 
-  print(): void {
-    console.log('print');
+  downloadPdf(): void {
+    if (!this.isFormValid) {
+      this.markFormGroupTouched(this.form);
+      return;
+    }
+
+    this.printService.generateInvoicePdf(this.form.value, this.companyInfo, this.invoiceSummary);
   }
+
+  generateInvoiceNumber(): string {
+  const datePart = new Date().toISOString().slice(0,7).replace('-', ''); // YYYYMM
+  const randomPart = Math.random().toString(36).substring(2, 8).toUpperCase(); // 6 caracteres alfanuméricos
+
+  return `${datePart}-${randomPart}`;
+}
 
   goBack(): void {
     this.location.back();

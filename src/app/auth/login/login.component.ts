@@ -29,8 +29,8 @@ export class LoginComponent {
     private readonly _toastService: ToastService,
   ) {
     this.loginForm = this.fb.group({
-      username: ['sebas2', [Validators.required]],
-      password: ['sebas123', [Validators.required]],
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]],
     });
   }
 

@@ -12,7 +12,8 @@
       variant="outlined"
       (onClick)="openPreview()"
     />
-    <p-splitButton label="Guardar" icon="pi pi-check" [model]="splitButtonItems" size="small" />
+
+  <p-splitbutton label="Guardar"  icon="pi pi-check" [model]="splitButtonItems" size="small" appendTo="body"/>
   </div>
 </header>
 
@@ -21,7 +22,7 @@
     <section>
       <h2 class="text-lg font-semibold">* Fecha</h2>
       <div class="flex flex-col">
-        <p-calendar
+        <p-datepicker
           formControlName="date"
           class="mt-4"
           [iconDisplay]="'input'"
@@ -300,7 +301,7 @@
             </td>
             <td>
               <div class="flex flex-col">
-                <p-dropdown
+                <p-select
                   formControlName="unit"
                   [options]="unitOptions"
                   optionLabel="name"

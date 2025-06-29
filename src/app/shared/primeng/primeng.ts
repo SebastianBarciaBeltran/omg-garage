@@ -2,11 +2,11 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { DividerModule } from 'primeng/divider';
 import { SplitButtonModule } from 'primeng/splitbutton';
-import { CalendarModule } from 'primeng/calendar';
+import { DatePickerModule } from 'primeng/datepicker';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { DrawerModule } from 'primeng/drawer';
 
@@ -16,11 +16,11 @@ export const primeNGModules = [
   SplitButtonModule,
   InputTextModule,
   DividerModule,
-  CalendarModule,
+  DatePickerModule,
   TableModule,
   DialogModule,
   InputNumberModule,
-  DropdownModule,
+  SelectModule,
   PanelMenuModule,
   DrawerModule
 ];

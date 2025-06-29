@@ -1,0 +1,5 @@
+.invoice-container {
+  width: 794px;
+  margin: 0 auto; /* centrado */
+  background-color: white; /* asegúrate de que el fondo sea blanco */
+}
