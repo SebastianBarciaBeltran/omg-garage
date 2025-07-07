@@ -42,10 +42,10 @@ export class PrintService {
     pdf.setFontSize(10);
     const companyDetails = [
       `CIF: ${company.cif}`,
-      `Address: ${company.address}`,
-      `City: ${company.city}`,
-      `Postal Code: ${company.postalCode}`,
-      `Phone: ${company.phone}`,
+      `Dirección: ${company.address}`,
+      `Localidad: ${company.city}`,
+      `CP: ${company.postalCode}`,
+      `Telf: ${company.phone}`,
       `Email: ${company.email}`
     ];
 
@@ -80,7 +80,7 @@ export class PrintService {
 
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'bold');
-    const title = 'CUSTOMER DETAILS';
+    const title = 'DATOS DEL CLIENTE';
     const titleWidth = pdf.getTextWidth(title);
     pdf.text(title, blockX + (blockWidth / 2) - (titleWidth / 2), y);
 
@@ -113,15 +113,15 @@ export class PrintService {
       });
     };
 
-    printField('Name', invoice.customer.name);
+    printField('Nombre', invoice.customer.name);
     const fullAddress = `${invoice.customer.address.nameOfTheRoad ?? ''}, ${invoice.customer.address.province ?? ''} - ${invoice.customer.address.municipality ?? ''} ${invoice.customer.address.postalCode ?? ''} ${invoice.customer.address.locality ?? ''}`;
-    printField('Address', fullAddress);
+    printField('Dirección', fullAddress);
     printField('Email', invoice.customer.email);
-    printField('Vehicle', invoice.customer.vehicle);
-    printField('Plate', invoice.customer.licensePlate);
-    printField('Mileage', invoice.customer.mileage ? `${invoice.customer.mileage} km` : '');
-    printField('NIF', invoice.customer.nifOrCif);
-    if (invoice.customer.claimNumber) printField('Claim Number', invoice.customer.claimNumber);
+    printField('Vehículo', invoice.customer.vehicle);
+    printField('Matrícula', invoice.customer.licensePlate);
+    printField('KM', invoice.customer.mileage ? `${invoice.customer.mileage} km` : '');
+    printField('NIF/CIF', invoice.customer.nifOrCif);
+    if (invoice.customer.claimNumber) printField('Siniestro', invoice.customer.claimNumber);
 
     const blockHeight = y - startY + 2;
     pdf.setLineWidth(0.1);
@@ -133,7 +133,7 @@ export class PrintService {
   private printInvoiceHeaderTable(pdf: jsPDF, invoice: any, startY: number): number {
     autoTable(pdf, {
       startY,
-      head: [['Date', 'Invoice Nº', 'NIF/CIF']],
+      head: [['Fecha', 'Nº Factura', 'NIF/CIF']],
       body: [
         [
           new Date(invoice.date).toLocaleDateString('en-GB'),
@@ -156,7 +156,7 @@ export class PrintService {
     ]);
     autoTable(pdf, {
       startY,
-      head: [['Ref.', 'Description', 'Quantity', 'Price', 'Amount']],
+      head: [['Ref.', 'Descripción', 'Cantidad', 'Precio', 'Importe']],
       body: productRows,
       theme: 'grid',
       headStyles: { halign: 'center', fontStyle: 'bold', fillColor: [255, 255, 255], textColor: 0 },
@@ -182,7 +182,7 @@ export class PrintService {
     const centerLineY = boxY + boxHeight / 2 - 3;
 
     pdf.setFontSize(10);
-    const bankLabel = 'Bank Account:';
+    const bankLabel = 'Cuenta bancaria:';
     const bankValue = company.bankAccount ?? '';
     const bankLabelWidth = pdf.getTextWidth(bankLabel);
     const bankValueWidth = pdf.getTextWidth(bankValue);
@@ -205,7 +205,7 @@ export class PrintService {
     pdf.text(`${summary.base} €`, valueX, lineY, { align: 'right' });
 
     lineY += 6;
-    pdf.text('VAT 21%:', boxX + paddingLeft, lineY);
+    pdf.text('IVA 21%:', boxX + paddingLeft, lineY);
     pdf.text(`${summary.iva} €`, valueX, lineY, { align: 'right' });
 
     lineY += 2;
